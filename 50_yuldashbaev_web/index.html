@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №1 - Локомотив</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecf2 100%);
+            color: #1e293b;
+            padding: 25px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-left: 5px solid #e03b3b;
+            border-right: 5px solid #008000;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        header {
+            margin-bottom: 45px;
+            background: linear-gradient(to right, #e03b3b, #008000);
+            padding: 30px 35px;
+            border-radius: 30px 30px 30px 30px;
+            box-shadow: 0 20px 30px -10px rgba(224, 59, 59, 0.4);
+            color: white;
+            text-align: center;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            border: 3px solid gold;
+            transform: skewX(-1deg);
+        }
+
+        header h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            word-break: break-word;
+            background: rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 0 25px;
+            border-radius: 50px;
+            backdrop-filter: blur(3px);
+            box-shadow: inset 0 -2px 5px rgba(255,215,0,0.5);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            font-style: italic;
+            border-top: 2px dashed white;
+            padding-top: 15px;
+        }
+
+        nav {
+            background: #2d3e50;
+            padding: 12px 25px;
+            border-radius: 60px;
+            margin: 35px 0 50px 0;
+            box-shadow: 0 10px 20px -5px #0b1a2a;
+            border-bottom: 4px solid #e03b3b;
+            position: sticky;
+            top: 10px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            background-color: rgba(45, 62, 80, 0.9);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 8px 25px;
+            border-radius: 40px;
+            background: #008000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            display: inline-block;
+            box-shadow: 0 4px 0 #004d00;
+        }
+
+        nav ul li a:hover {
+            background: #e03b3b;
+            box-shadow: 0 6px 0 #8b0000;
+            transform: translateY(-2px);
+            border-color: gold;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 35px 30px;
+            margin-bottom: 45px;
+            border-radius: 60px 20px 60px 20px;
+            box-shadow: 0 30px 40px -20px #1e293b;
+            border-left: 8px solid #e03b3b;
+            border-right: 8px solid #008000;
+            transition: all 0.2s ease;
+        }
+
+        section:hover {
+            box-shadow: 0 30px 50px -15px gold;
+            border-left-color: #008000;
+            border-right-color: #e03b3b;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 35px;
+            background: linear-gradient(135deg, #e03b3b, #008000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 4px dotted #e03b3b;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin: 20px 0 15px;
+            background: #f1f5f9;
+            display: inline-block;
+            padding: 5px 25px;
+            border-radius: 40px;
+            box-shadow: -3px 3px 0 #008000;
+        }
+
+        .joke-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 25px;
+        }
+
+        .joke-card {
+            background: white;
+            border-radius: 40px 15px 40px 15px;
+            padding: 25px 20px 30px;
+            box-shadow: 15px 15px 0 #e03b3b;
+            border: 3px solid #2d3e50;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .joke-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 20px 20px 0 #008000;
+        }
+
+        .joke-card img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 30px 10px 30px 10px;
+            margin-bottom: 20px;
+            border: 4px solid #e03b3b;
+            background: #ddd;
+            padding: 5px;
+        }
+
+        .joke-card p {
+            font-size: 1.2rem;
+            background: #fff3cd;
+            padding: 20px 15px;
+            border-radius: 20px;
+            border-left: 7px solid #e03b3b;
+            font-style: italic;
+            box-shadow: inset 0 -3px 0 #aaa;
+        }
+
+        .content-block {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            align-items: flex-start;
+        }
+
+        .content-text {
+            flex: 2;
+            min-width: 300px;
+            background: #e6f3ff;
+            padding: 25px;
+            border-radius: 25px;
+            border: 4px solid #2d3e50;
+        }
+
+        .content-text p {
+            margin: 15px 0;
+            font-size: 1.2rem;
+        }
+
+        .review {
+            background: #ffe6e6;
+            padding: 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            border: 3px dashed #e03b3b;
+        }
+
+        blockquote {
+            background: #2d3e50;
+            color: #f8fafc;
+            padding: 15px 25px;
+            border-radius: 30px 10px 30px 10px;
+            margin: 25px 0;
+            font-size: 1.2rem;
+            border-left: 12px solid gold;
+            box-shadow: -7px 7px 0 #008000;
+        }
+
+        blockquote footer {
+            text-align: right;
+            font-weight: bold;
+            color: #ffd966;
+            margin-top: 12px;
+            border-top: 1px solid white;
+            padding-top: 8px;
+        }
+
+        .match-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+            margin: 30px 0;
+        }
+
+        .match-table caption {
+            font-size: 2rem;
+            font-weight: bold;
+            background: gold;
+            padding: 12px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+            color: #1e293b;
+            border: 4px solid #e03b3b;
+        }
+
+        .match-table th {
+            background: #008000;
+            color: white;
+            font-size: 1.3rem;
+            padding: 15px 10px;
+            border-radius: 30px 30px 5px 5px;
+            text-transform: uppercase;
+        }
+
+        .match-table td {
+            background: white;
+            padding: 16px 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 15px;
+            box-shadow: 0 7px 0 #aaa;
+            border: 2px solid #2d3e50;
+        }
+
+        .match-table tr:hover td {
+            background: #fff2b5;
+            transform: scale(1.01);
+            box-shadow: 0 10px 0 #e03b3b;
+        }
+
+        .score {
+            background: #e03b3b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-weight: 800;
+            display: inline-block;
+        }
+
+        ul, ol, dl {
+            margin: 20px 0 20px 30px;
+            font-size: 1.15rem;
+        }
+
+        li {
+            margin: 8px 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="%23e03b3b"><circle cx="12" cy="12" r="6"/></svg>') left center no-repeat;
+            padding-left: 30px;
+            list-style: none;
+        }
+
+        dt {
+            font-weight: 900;
+            color: #008000;
+            font-size: 1.4rem;
+            margin-top: 20px;
+        }
+
+        dd {
+            margin-left: 35px;
+            background: #f0f0f0;
+            padding: 10px 20px;
+            border-radius: 15px;
+        }
+
+
+        footer {
+            margin-top: 60px;
+            background: #1e293b;
+            color: #b0c4de;
+            padding: 35px 25px;
+            border-radius: 90px 10px 90px 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            border-top: 7px solid gold;
+            border-bottom: 7px solid #e03b3b;
+        }
+
+        address {
+            font-style: normal;
+            background: #2d3e50;
+            padding: 10px;
+            border-radius: 40px;
+            margin-top: 20px;
+            color: white;
+        }
+        .extra-style-1 { border-radius: 0; }
+        .extra-style-2 { border-radius: 10px; }
+        .extra-style-3 { transition: none; }
+        .extra-style-4 { display: block; }
+        .extra-style-5 { visibility: visible; }
+        .extra-style-6 { opacity: 1; }
+        .extra-style-7 { overflow: hidden; }
+        .extra-style-8 { cursor: pointer; }
+        .extra-style-9 { user-select: none; }
+        .extra-style-10 { outline: none; }
+        hr { border: 3px double #e03b3b; margin: 40px 0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1> ЛАБОРАТОРНАЯ РАБОТА №1 </h1>
+        <p>Вариант 50 — ФК «Локомотив» | Студент: Юлдашбаев Камиль Группа: [КС-26]</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#jokes">Анекдоты</a></li>
+            <li><a href="#content">Контент и отзыв</a></li>
+            <li><a href="#quotes">Цитаты</a></li>
+            <li><a href="#matches">Матчи «Локо»</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="jokes">
+            <h2> Три крутых анекдота</h2>
+            <div class="joke-grid">
+                <article class="joke-card">
+                    <img src="https://avatars.mds.yandex.net/i?id=e13dd7ba2c27014444f675b6fec5cbdb2b807f9e-5267277-images-thumbs&n=13" alt="Программист и кот" onerror="this.src='https://via.placeholder.com/300x200?text=Анекдот+1'">
+                    <p>Почему толстых женщин не берут в стриптиз?<br>— Они перегибают палку.</p>
+                </article>
+                <article class="joke-card">
+                    <img src="https://avatars.mds.yandex.net/i?id=38fd24a35b0d5067f16d9175d0472b8d21e8d6a3-4727095-images-thumbs&n=13" alt="Баги" onerror="this.src='https://via.placeholder.com/300x200?text=Анекдот+2'">
+                    <p>Бедняк-каннибал доедал последний ... без соли.</p>
+                </article>
+                <article class="joke-card">
+                    <img src="https://avatars.mds.yandex.net/i?id=76544b8565558e8931016d409a19237be415d422-10532251-images-thumbs&n=13" alt="Локомотив" onerror="this.src='https://via.placeholder.com/300x200?text=Анекдот+3'">
+                    <p>Спорят как-то два гея, потому что по другому они размножаться не могут.</p>
+                </article>
+            </div>
+        </section>
+        <section id="content">
+            <h2>📺 Последний употреблённый контент</h2>
+            <div class="content-block">
+                <div class="content-text">
+                    <h3>Фильм: «Движение вверх» (2017)</h3>
+                    <p><strong>Жанр:</strong> Драма, спорт, история. <strong>Режиссёр:</strong> Антон Мегердичев.</p>
+                    <p>Фильм о легендарной победе сборной СССР по баскетболу на мюнхенской Олимпиаде 1972 года. Очень мотивирует, накал страстей невероятный. Особенно цепляет сцена, где игроки превозмогают себя ради команды. Прямо как «Локомотив» борется за каждый трофей!</p>
+                    <div class="review">
+                        <h4>🧑‍🎤 Мой личный отзыв:</h4>
+                        <p>«Пересматривал уже три раза. Каждый раз мурашки. Советую всем, кто любит спорт и настоящие истории побед. После фильма хочется бежать и делать невозможное. Оценка: <strong>10/10</strong>»</p>
+                    </div>
+                </div>
+                <aside style="background:#f0f0f0; padding:25px; border-radius:40px; min-width:220px;">
+                    <h4>Что понравилось:</h4>
+                    <ul>
+                        <li>Атмосфера 70-х</li>
+                        <li>Актёрская игра</li>
+                        <li>Финальные 3 секунды</li>
+                        <li>Саундтрек</li>
+                    </ul>
+                    <h4>Минусы:</h4>
+                    <ul>
+                        <li>Нет (это шедевр)</li>
+                        <li>Хочется ещё сериал</li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
+
+        <section id="quotes">
+            <h2>🎬 Три цитаты из «Движение вверх»</h2>
+            <blockquote>
+                «Нет ничего невозможного!»
+                <footer>— тренер Гаранжин</footer>
+            </blockquote>
+            <blockquote>
+                «Мы должны выиграть эту игру. Не для себя — для всей страны.»
+                <footer>— Сергей Белов</footer>
+            </blockquote>
+            <blockquote>
+                «Ты понимаешь, что мы сейчас сделали? Мы изменили историю!»
+                <footer>— комментатор</footer>
+            </blockquote>
+            <h3>Словарик баскетбола (список определений)</h3>
+            <dl>
+                <dt>Движение вверх</dt>
+                <dd>Фильм, который доказывает: команда — это сила.</dd>
+                <dt>Локомотив</dt>
+                <dd>Клуб, который тоже всегда движется вверх.</dd>
+                <dt>Золото Олимпиады</dt>
+                <dd>Награда, которая покоряется только самым стойким.</dd>
+            </dl>
+        </section>
+        <section id="matches">
+            <h2>⚽ Календарь матчей «Локомотив» (январь–февраль)</h2>
+            <table class="match-table">
+                <caption>🔥 Ближайшие игры железнодорожников 🔥</caption>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Соперник</th>
+                        <th>Счёт</th>
+                        <th>Время (мск)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>25.01.2025</td>
+                        <td>Зенит (СПб)</td>
+                        <td><span class="score">2 : 1</span></td>
+                        <td>19:45</td>
+                    </tr>
+                    <tr>
+                        <td>01.02.2025</td>
+                        <td>Спартак-Москва</td>
+                        <td><span class="score">1 : 1</span></td>
+                        <td>17:30</td>
+                    </tr>
+                    <tr>
+                        <td>08.02.2025</td>
+                        <td>Краснодар</td>
+                        <td><span class="score">3 : 2</span></td>
+                        <td>20:00</td>
+                    </tr>
+                    <tr>
+                        <td>15.02.2025</td>
+                        <td>ПФК ЦСКА</td>
+                        <td><span class="score">0 : 0</span></td>
+                        <td>16:15</td>
+                    </tr>
+                    <tr>
+                        <td>22.02.2025</td>
+                        <td>Ахмат (Грозный)</td>
+                        <td><span class="score">4 : 0</span></td>
+                        <td>18:00</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr><td colspan="4" style="background:gold; text-align:center;">⚡ Вперёд, Локо! ⚡</td></tr>
+                </tfoot>
+            </table>
+            <h3>Прогноз погоды на матчи (для красоты)</h3>
+            <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+                <colgroup>
+                    <col span="2" style="background: #b3d9ff;">
+                    <col style="background: #ffb3b3;">
+                </colgroup>
+                <tr><th>Дата</th><th>Температура</th><th>Осадки</th></tr>
+                <tr><td>25.01</td><td>-5°C</td><td>Снег</td></tr>
+                <tr><td>01.02</td><td>-3°C</td><td>Облачно</td></tr>
+                <tr><td>08.02</td><td>-7°C</td><td>Ясно</td></tr>
+            </table>
+        </section>
+        <section>
+            <h2>🏆 Турнирная таблица РПЛ (на 08.02, 16:27)</h2>
+            <table style="width:100%; border:5px solid #e03b3b; border-collapse:collapse;">
+                <tr style="background:#2d3e50; color:white;"><th>Позиция</th><th>Команда</th><th>Позиция</th><th>Команда</th></tr>
+                <tr><td>1</td><td>Краснодар</td><td>9</td><td>Акрон</td></tr>
+                <tr><td>2</td><td>Зенит</td><td>10</td><td>Динамо-Москва</td></tr>
+                <tr><td>3</td><td>Локомотив</td><td>11</td><td>Ростов</td></tr>
+                <tr><td>4</td><td>ПФК ЦСКА</td><td>12</td><td>Крылья советов</td></tr>
+                <tr><td>5</td><td>Балтика</td><td>13</td><td>Динамо Махачкала</td></tr>
+                <tr><td>6</td><td>Спартак-Москва</td><td>14</td><td>Пари НН</td></tr>
+                <tr><td>7</td><td>Рубин</td><td>15</td><td>Оренбург</td></tr>
+                <tr><td>8</td><td>Ахмат</td><td>16</td><td>Сочи</td></tr>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Студент Юлдашбаев Камиль | Лабораторная работа №1 | Курс «Веб-программирование»</p>
+        <p>Все анекдоты вымышлены, совпадения случайны. </p>
+        <address>
+            Контакты: telegram @kamka256 | репозиторий: <a href="#" style="color:gold;">50_Fam_Web</a>
+        </address>
+        <p><small>Дата выполнения: февраль 2025</small></p>
+    </footer>
+    <details style="margin-top:30px; background:#eee; padding:15px;">
+        <summary>⚙️ Техническая информация о работе</summary>
+        <p>Номер варианта N = 50 → (50 % 16) + 1 = 3 → команда «Локомотив». В работе использованы: списки, таблицы, изображения, семантические теги header, nav, main, section, article, aside, footer, address, details, blockquote, figure, и многое другое.</p>
+    </details>
+</body>
+</html>
