@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>КОЛЁСА ДЛЯ КОЛЯСКИ — ЗИМА 2026!</title>
+  <style>
+    /* ===== ПЕРЕМЕННЫЕ ===== */
+    :root {
+      --red: #e8000d;
+      --yellow: #ffe600;
+      --blue: #0057b8;
+      --white: #fff;
+      --dark: #111;
+      --orange: #ff6a00;
+      --green: #00b300;
+    }
+
+    /* ===== СБРОС И БАЗА ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--yellow);
+      font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+      color: var(--dark);
+      overflow-x: hidden;
+      cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='28' font-size='28'>🍼</text></svg>") 16 16, auto;
+    }
+
+    /* ===== АНИМАЦИИ ===== */
+    @keyframes blink { 0%,100%{background:var(--red)} 50%{background:var(--blue)} }
+    @keyframes shake { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
+    @keyframes marquee { from{transform:translateX(100vw)} to{transform:translateX(-100%)} }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes rainbow {
+      0%{color:#e8000d} 16%{color:#ff6a00} 33%{color:#ffe600}
+      50%{color:#00b300} 66%{color:#0057b8} 83%{color:#8b00ff} 100%{color:#e8000d}
+    }
+    @keyframes flash-bg { 0%,100%{background:var(--yellow)} 50%{background:#fff} }
+
+    /* ===== ТОП-БЕГУЩАЯ СТРОКА ===== */
+    .ticker-wrap {
+      background: var(--red);
+      color: var(--yellow);
+      font-size: clamp(14px, 3vw, 20px);
+      padding: 8px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 4px solid var(--dark);
+      border-bottom: 4px solid var(--dark);
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: marquee 18s linear infinite;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      animation: blink 1s infinite;
+      text-align: center;
+      padding: clamp(12px, 4vw, 32px) 16px;
+      border-bottom: 6px dashed var(--dark);
+      position: relative;
+    }
+    header h1 {
+      font-size: clamp(28px, 9vw, 90px);
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 var(--dark), -2px -2px 0 var(--white);
+      animation: shake 0.4s infinite;
+      line-height: 1;
+      letter-spacing: 2px;
+    }
+    header .subtitle {
+      font-size: clamp(14px, 3.5vw, 28px);
+      background: var(--dark);
+      color: var(--yellow);
+      display: inline-block;
+      padding: 4px 16px;
+      margin-top: 8px;
+      transform: rotate(-2deg);
+      animation: pulse 1.2s infinite;
+    }
+    .badge-new {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: var(--red);
+      color: var(--white);
+      border-radius: 50%;
+      width: clamp(60px, 12vw, 100px);
+      height: clamp(60px, 12vw, 100px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: clamp(10px, 2.5vw, 18px);
+      text-align: center;
+      animation: spin 3s linear infinite;
+      border: 4px solid var(--dark);
+      line-height: 1.1;
+    }
+
+    /* ===== ОСНОВНОЙ КОНТЕЙНЕР — GRID ===== */
+    .page-grid {
+      display: grid;
+      grid-template-columns: clamp(80px, 15vw, 160px) 1fr clamp(80px, 15vw, 160px);
+      grid-template-rows: auto;
+      gap: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ===== БОКОВЫЕ БАННЕРЫ ===== */
+    .side-ad {
+      background: var(--blue);
+      padding: 8px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      border-right: 4px solid var(--dark);
+      animation: flash-bg 2s infinite;
+    }
+    .side-ad.right { border-right: none; border-left: 4px solid var(--dark); }
+    .ad-banner {
+      background: var(--white);
+      border: 3px solid var(--red);
+      padding: 6px 4px;
+      text-align: center;
+      font-size: clamp(8px, 1.5vw, 13px);
+      width: 100%;
+      animation: pulse 2s infinite;
+      cursor: pointer;
+    }
+    .ad-banner .ad-title { color: var(--red); font-size: clamp(9px, 1.8vw, 15px); }
+    .ad-svg { width: 100%; max-width: 130px; }
+
+    /* ===== ЦЕНТРАЛЬНЫЙ КОНТЕНТ ===== */
+    main { padding: 0; }
+
+    /* HERO SVG */
+    .hero {
+      text-align: center;
+      padding: clamp(10px, 3vw, 24px) 12px;
+      background: var(--white);
+      border-bottom: 5px solid var(--dark);
+    }
+    .hero svg { width: min(340px, 90%); height: auto; }
+
+    /* ЛОЗУНГИ — FLEXBOX */
+    .slogans {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: clamp(10px, 3vw, 20px) 12px;
+      justify-content: center;
+      background: var(--red);
+      border-bottom: 5px solid var(--dark);
+    }
+    .slogan-tag {
+      background: var(--yellow);
+      color: var(--dark);
+      padding: 6px 12px;
+      font-size: clamp(11px, 2.5vw, 18px);
+      transform: rotate(var(--r, -2deg));
+      border: 3px solid var(--dark);
+      animation: bounce 1s infinite;
+      animation-delay: var(--d, 0s);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .slogan-tag:nth-child(odd)  { --r: -3deg; }
+    .slogan-tag:nth-child(even) { --r: 2deg; background: var(--white); }
+
+    /* ТОП-5 — GRID */
+    .top5-section {
+      padding: clamp(12px, 4vw, 30px) 12px;
+      background: var(--yellow);
+      border-bottom: 5px solid var(--dark);
+    }
+    .top5-section h2 {
+      text-align: center;
+      font-size: clamp(20px, 6vw, 52px);
+      text-transform: uppercase;
+      animation: rainbow 2s linear infinite;
+      text-shadow: 3px 3px 0 var(--dark);
+      margin-bottom: 16px;
+    }
+    .top5-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .reason-card {
+      background: var(--white);
+      border: 4px solid var(--dark);
+      padding: 14px 12px;
+      position: relative;
+      transition: transform 0.15s;
+      box-shadow: 5px 5px 0 var(--dark);
+    }
+    .reason-card:hover { transform: rotate(-1deg) scale(1.04); }
+    .reason-num {
+      font-size: clamp(36px, 8vw, 60px);
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+    .reason-title {
+      font-size: clamp(14px, 3vw, 20px);
+      text-transform: uppercase;
+      margin: 4px 0;
+    }
+    .reason-desc {
+      font-family: Arial, sans-serif;
+      font-size: clamp(11px, 2vw, 14px);
+      color: #333;
+      font-weight: normal;
+    }
+    .reason-emoji {
+      position: absolute;
+      top: -14px; right: -10px;
+      font-size: clamp(24px, 5vw, 36px);
+      animation: spin 4s linear infinite;
+    }
+
+    /* ОТЗЫВЫ — FLEXBOX */
+    .reviews-section {
+      padding: clamp(12px, 4vw, 30px) 12px;
+      background: var(--blue);
+      border-bottom: 5px solid var(--dark);
+    }
+    .reviews-section h2 {
+      text-align: center;
+      color: var(--white);
+      font-size: clamp(20px, 5vw, 42px);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      text-shadow: 3px 3px 0 var(--dark);
+    }
+    .reviews-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .review-card {
+      background: var(--white);
+      border: 4px solid var(--yellow);
+      padding: 14px 12px;
+      max-width: 280px;
+      min-width: 200px;
+      flex: 1 1 200px;
+      box-shadow: 6px 6px 0 var(--dark);
+      position: relative;
+    }
+    .review-stars { color: var(--yellow); font-size: 18px; -webkit-text-stroke: 1px var(--dark); }
+    .review-text {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(11px, 2.2vw, 14px);
+      margin: 6px 0;
+      color: var(--dark);
+    }
+    .review-author {
+      font-size: clamp(10px, 1.8vw, 13px);
+      color: #555;
+      font-family: Arial, sans-serif;
+      font-style: italic;
+    }
+    .verified {
+      position: absolute; top: -10px; right: -8px;
+      background: var(--green);
+      color: var(--white);
+      font-size: 10px;
+      padding: 2px 6px;
+      border: 2px solid var(--dark);
+      transform: rotate(5deg);
+    }
+
+    /* ИЗОБРЕТЕНИЕ */
+    .invention-section {
+      padding: clamp(12px, 4vw, 30px) 12px;
+      background: var(--orange);
+      border-bottom: 5px solid var(--dark);
+      text-align: center;
+    }
+    .invention-section h2 {
+      font-size: clamp(18px, 5vw, 40px);
+      text-transform: uppercase;
+      color: var(--white);
+      text-shadow: 3px 3px 0 var(--dark);
+      animation: shake 0.5s infinite;
+      margin-bottom: 10px;
+    }
+    .invention-section p {
+      font-family: Arial, sans-serif;
+      font-size: clamp(12px, 2.5vw, 16px);
+      color: var(--dark);
+      background: var(--yellow);
+      display: inline-block;
+      padding: 6px 14px;
+      border: 3px solid var(--dark);
+      max-width: 500px;
+      margin: 0 auto 14px;
+    }
+    .invention-section svg { width: min(380px, 92%); height: auto; margin: 0 auto; display: block; }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: clamp(14px, 4vw, 32px) 12px;
+      background: var(--red);
+      border-bottom: 5px solid var(--dark);
+    }
+    .cta-section h2 {
+      font-size: clamp(22px, 7vw, 60px);
+      color: var(--yellow);
+      text-transform: uppercase;
+      text-shadow: 4px 4px 0 var(--dark);
+      animation: bounce 0.8s infinite;
+      margin-bottom: 16px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--dark);
+      font-family: 'Impact', Arial, sans-serif;
+      font-size: clamp(18px, 5vw, 36px);
+      padding: clamp(10px, 3vw, 18px) clamp(20px, 6vw, 50px);
+      border: 5px solid var(--dark);
+      text-decoration: none;
+      text-transform: uppercase;
+      cursor: pointer;
+      animation: pulse 0.7s infinite;
+      box-shadow: 6px 6px 0 var(--dark);
+      transition: box-shadow 0.1s, transform 0.1s;
+    }
+    .cta-btn:hover {
+      box-shadow: 2px 2px 0 var(--dark);
+      transform: translate(4px, 4px);
+    }
+    .price-badge {
+      display: inline-block;
+      background: var(--white);
+      border: 4px solid var(--dark);
+      padding: 8px 20px;
+      font-size: clamp(14px, 4vw, 30px);
+      margin-top: 14px;
+      animation: rainbow 1s linear infinite;
+    }
+    .old-price {
+      font-size: clamp(10px, 2.5vw, 18px);
+      text-decoration: line-through;
+      color: rgba(255,255,255,0.7);
+      font-family: Arial, sans-serif;
+    }
+
+    /* POPUP */
+    .popup-ad {
+      position: fixed;
+      bottom: 16px; right: 16px;
+      background: var(--white);
+      border: 5px solid var(--red);
+      padding: 12px;
+      z-index: 9999;
+      max-width: clamp(180px, 40vw, 240px);
+      box-shadow: 8px 8px 0 var(--dark);
+      animation: bounce 1.5s infinite;
+      font-size: clamp(10px, 2vw, 13px);
+      text-align: center;
+    }
+    .popup-ad .popup-title { color: var(--red); font-size: clamp(12px, 2.5vw, 16px); }
+    .popup-close {
+      position: absolute; top: 2px; right: 6px;
+      cursor: pointer; font-size: 16px; color: var(--dark);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: var(--yellow);
+      text-align: center;
+      padding: clamp(10px, 3vw, 20px) 12px;
+      font-size: clamp(9px, 2vw, 13px);
+      font-family: Arial, sans-serif;
+    }
+    footer p { margin-bottom: 4px; }
+
+    /* ===== MEDIA QUERIES ===== */
+
+    @media (max-width: 480px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+      }
+      .side-ad {
+        flex-direction: row;
+        overflow-x: auto;
+        border-right: none;
+        border-left: none;
+        border-top: 4px solid var(--dark);
+        border-bottom: 4px solid var(--dark);
+        padding: 6px 8px;
+      }
+      .ad-banner { min-width: 120px; max-width: 180px; flex-shrink: 0; }
+      .badge-new { width: 52px; height: 52px; font-size: 9px; top: 6px; right: 6px; }
+      .top5-grid { grid-template-columns: 1fr; }
+      .popup-ad { bottom: 8px; right: 4px; max-width: 160px; }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .page-grid {
+        grid-template-columns: 90px 1fr 90px;
+      }
+      .top5-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* Десктоп 769+ */
+    @media (min-width: 769px) {
+      .top5-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1100px) {
+      .top5-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- БЕГУЩАЯ СТРОКА -->
+<div class="ticker-wrap">
+  <span class="ticker-inner">
+    ❄️ ЗИМА БЛИЗКО! ❄️ &nbsp;|&nbsp; 🍼 ЗИМНЯЯ РЕЗИНА ДЛЯ КОЛЯСКИ — ТОЛЬКО СЕЙЧАС! &nbsp;|&nbsp; 🔥 РАСПРОДАЖА! ОСТАЛОСЬ 3 ШТУКИ! &nbsp;|&nbsp; ⚡ УСПЕЙ КУПИТЬ ДО СНЕГОПАДА! &nbsp;|&nbsp; 💥 ТВОЙ РЕБЁНОК ЗАСЛУЖИВАЕТ ЛУЧШЕГО! &nbsp;|&nbsp; 🛒 БЕЗ РЕЗИНЫ — НЕ ВЫХОДИ ИЗ ДОМА! &nbsp;|&nbsp;
+    ❄️ ЗИМА БЛИЗКО! ❄️ &nbsp;|&nbsp; 🍼 ЗИМНЯЯ РЕЗИНА ДЛЯ КОЛЯСКИ — ТОЛЬКО СЕЙЧАС!
+  </span>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="badge-new">НОВ<br>ИНКА!<br>🔥</div>
+  <h1>WINTER PRO</h1>
+  <p class="subtitle">Зимняя резина для детских колясок №1 в галактике!</p>
+</header>
+
+<!-- ОСНОВНАЯ СЕТКА -->
+<div class="page-grid">
+
+  <!-- ЛЕВЫЙ БАННЕР -->
+  <aside class="side-ad">
+    <div class="ad-banner">
+      <div class="ad-title">💊 УСТАЛ?</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#ffe600"/>
+        <ellipse cx="50" cy="40" rx="35" ry="25" fill="#e8000d"/>
+        <text x="50" y="45" text-anchor="middle" font-size="10" fill="white" font-family="Impact">БОДРОСТЬ</text>
+        <text x="50" y="56" text-anchor="middle" font-size="8" fill="white" font-family="Arial">в таблетках</text>
+      </svg>
+      Витамин «Без Снежная для пап на прогулке!
+    </div>
+    <div class="ad-banner">
+      <div class="ad-title">🐻 МИШКА</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#0057b8"/>
+        <circle cx="50" cy="35" r="20" fill="#c8a06e"/>
+        <circle cx="40" cy="27" r="8" fill="#c8a06e"/>
+        <circle cx="60" cy="27" r="8" fill="#c8a06e"/>
+        <circle cx="44" cy="33" r="3" fill="#333"/>
+        <circle cx="56" cy="33" r="3" fill="#333"/>
+        <ellipse cx="50" cy="41" rx="6" ry="4" fill="#a06840"/>
+        <text x="50" y="68" text-anchor="middle" font-size="8" fill="white" font-family="Arial">Талисман УДАЧИ</text>
+      </svg>
+      Медведь «Фортуна» отгоняет снег!
+    </div>
+    <div class="ad-banner">
+      <div class="ad-title">🌡️ -40°С?</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#00b300"/>
+        <rect x="42" y="10" width="16" height="45" rx="8" fill="#ff6a00"/>
+        <rect x="44" y="30" width="12" height="20" fill="#e8000d"/>
+        <circle cx="50" cy="62" r="12" fill="#e8000d"/>
+        <text x="50" y="78" text-anchor="middle" font-size="8" fill="white" font-family="Arial">НОЛЬ ПРОБЛЕМ!</text>
+      </svg>
+      Термос «Вечный огонь» для прогулки!
+    </div>
+  </aside>
+
+  <!-- КОНТЕНТ -->
+  <main>
+
+    <!-- HERO — рисунок коляски -->
+    <section class="hero">
+      <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="260" fill="#dceeff"/>
+        <ellipse cx="200" cy="245" rx="190" ry="18" fill="white"/>
+        <text x="30" y="40" font-size="22" opacity="0.6">❄</text>
+        <text x="70" y="20" font-size="16" opacity="0.5">❄</text>
+        <text x="320" y="50" font-size="20" opacity="0.7">❄</text>
+        <text x="360" y="25" font-size="14" opacity="0.4">❄</text>
+        <text x="180" y="18" font-size="18" opacity="0.5">❄</text>
+        <!-- Тело коляски -->
+        <path d="M100,180 Q110,110 180,100 L290,100 Q330,105 330,160 L320,180 Z" fill="#e8000d" stroke="#111" stroke-width="4"/>
+        <!-- Козырёк -->
+        <path d="M180,100 Q210,60 280,70 L290,100 Z" fill="#0057b8" stroke="#111" stroke-width="3"/>
+        <!-- Окно -->
+        <ellipse cx="230" cy="140" rx="40" ry="25" fill="#fff" stroke="#111" stroke-width="3"/>
+        <!-- Малыш -->
+        <circle cx="230" cy="128" r="14" fill="#f5cba7" stroke="#111" stroke-width="2"/>
+        <circle cx="225" cy="125" r="2.5" fill="#333"/>
+        <circle cx="235" cy="125" r="2.5" fill="#333"/>
+        <path d="M225,134 Q230,138 235,134" stroke="#333" stroke-width="2" fill="none"/>
+        <!-- Ручка -->
+        <line x1="100" y1="180" x2="60" y2="130" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+        <line x1="60" y1="130" x2="60" y2="100" stroke="#111" stroke-width="6"/>
+        <!-- Рама -->
+        <line x1="120" y1="182" x2="120" y2="220" stroke="#333" stroke-width="5"/>
+        <line x1="300" y1="182" x2="300" y2="220" stroke="#333" stroke-width="5"/>
+        <line x1="120" y1="220" x2="300" y2="220" stroke="#333" stroke-width="3" stroke-dasharray="6,4"/>
+        <!-- Колёса с протектором -->
+        <circle cx="135" cy="222" r="30" fill="#222" stroke="#111" stroke-width="3"/>
+        <circle cx="135" cy="222" r="22" fill="#444"/>
+        <circle cx="135" cy="222" r="12" fill="#888"/>
+        <circle cx="115" cy="208" r="4" fill="#e8000d"/>
+        <circle cx="155" cy="208" r="4" fill="#e8000d"/>
+        <circle cx="115" cy="236" r="4" fill="#e8000d"/>
+        <circle cx="155" cy="236" r="4" fill="#e8000d"/>
+        <circle cx="135" cy="198" r="4" fill="#e8000d"/>
+        <circle cx="135" cy="246" r="4" fill="#e8000d"/>
+        <text x="135" y="226" text-anchor="middle" font-size="7" fill="#ffe600" font-family="Impact">WINTER</text>
+        <circle cx="295" cy="222" r="30" fill="#222" stroke="#111" stroke-width="3"/>
+        <circle cx="295" cy="222" r="22" fill="#444"/>
+        <circle cx="295" cy="222" r="12" fill="#888"/>
+        <circle cx="275" cy="208" r="4" fill="#e8000d"/>
+        <circle cx="315" cy="208" r="4" fill="#e8000d"/>
+        <circle cx="275" cy="236" r="4" fill="#e8000d"/>
+        <circle cx="315" cy="236" r="4" fill="#e8000d"/>
+        <circle cx="295" cy="198" r="4" fill="#e8000d"/>
+        <circle cx="295" cy="246" r="4" fill="#e8000d"/>
+        <text x="295" y="226" text-anchor="middle" font-size="7" fill="#ffe600" font-family="Impact">WINTER</text>
+        <!-- Стрелки ШИП -->
+        <line x1="70" y1="240" x2="105" y2="222" stroke="#e8000d" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <text x="10" y="244" font-size="11" fill="#e8000d" font-family="Impact" font-weight="bold">ШИП!</text>
+        <line x1="340" y1="240" x2="325" y2="222" stroke="#e8000d" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <text x="342" y="244" font-size="11" fill="#e8000d" font-family="Impact" font-weight="bold">ШИП!</text>
+        <text x="5" y="15" font-size="30">⭐</text>
+        <text x="358" y="15" font-size="30">⭐</text>
+        <text x="200" y="14" text-anchor="middle" font-size="13" fill="#0057b8" font-family="Impact">НАРИСОВАНО в Paint В 3 ЧАСА НОЧИ</text>
+      </svg>
+    </section>
+
+    <!-- ЛОЗУНГИ (flexbox) -->
+    <section class="slogans">
+      <div class="slogan-tag" style="--d:0s">❄️ НЕ ДАЙТЕ КОЛЯСКЕ БУКСОВАТЬ!</div>
+      <div class="slogan-tag" style="--d:0.1s">🍼 РЕБЁНОК ЕДЕТ — МЫ СМОТРИМ!</div>
+      <div class="slogan-tag" style="--d:0.2s">🔥 ЗИМА? НАШИМ — ВСЕГДА ЛЕТО!</div>
+      <div class="slogan-tag" style="--d:0.3s">🏆 РЕЗИНА ДЛЯ ТЕХ КТО НЕ КУПИЛ ВОВРЕМЯ ДРУГУЮ!</div>
+      <div class="slogan-tag" style="--d:0.4s">💪 КУПИ ИЛИ ПРОИГРАЙ ЗИМЕ!</div>
+      <div class="slogan-tag" style="--d:0.5s">🛒 НАСТОЯЩИЙ ПАПА ПОКУПАЕТ РЕЗИНУ!</div>
+      <div class="slogan-tag" style="--d:0.6s">⚡ ШИПОВАННЫЙ = СЧАСТЛИВЫЙ!</div>
+    </section>
+
+    <!-- ТОП-5 (grid) -->
+    <section class="top5-section">
+      <h2>ТОП-5 ПРИЧИН<br>КУПИТЬ ПРЯМО СЕЙЧАС!</h2>
+      <div class="top5-grid">
+        <article class="reason-card">
+          <span class="reason-emoji">❄️</span>
+          <span class="reason-num">1</span>
+          <div class="reason-title">Потому что снег!</div>
+          <p class="reason-desc">Снег существует. Коляска скользит. Ребёнок орёт. Наша резина решает сразу три проблемы.</p>
+        </article>
+        <article class="reason-card">
+          <span class="reason-emoji">🏅</span>
+          <span class="reason-num">2</span>
+          <div class="reason-title">Соседи завидуют</div>
+          <p class="reason-desc">Шипованные колёса — это статус. Тётя Зина из второго подъезда уже смотрит с завистью.</p>
+        </article>
+        <article class="reason-card">
+          <span class="reason-emoji">🚀</span>
+          <span class="reason-num">3</span>
+          <div class="reason-title">Скорость +120%</div>
+          <p class="reason-desc">По нашим непроверенным данным, коляска разгоняется до 3 км/ч вместо жалких 1.5 км/ч!</p>
+        </article>
+        <article class="reason-card">
+          <span class="reason-emoji">🔬</span>
+          <span class="reason-num">4</span>
+          <div class="reason-title">Наука доказала</div>
+          <p class="reason-desc">Один учёный (наш сосед Геннадий) провёл исследование и сказал: «Ну нормально». Это факт!</p>
+        </article>
+        <article class="reason-card">
+          <span class="reason-emoji">💸</span>
+          <span class="reason-num">5</span>
+          <div class="reason-title">Скидка 90%*</div>
+          <p class="reason-desc">*Скидка действует только при покупке в високосный год в 3:47 ночи при луне. Мы работаем над расширением условий.</p>
+        </article>
+      </div>
+    </section>
+
+
+    <!-- ОТЗЫВЫ (flexbox) -->
+    <section class="reviews-section">
+      <h2>😍 РЕАЛЬНЫЕ ОТЗЫВЫ РЕАЛЬНЫХ ЛЮДЕЙ 😍</h2>
+      <div class="reviews-flex">
+        <article class="review-card">
+          <span class="verified">✅ ПРОВЕРЕНО</span>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Поставила зимнюю резину — и жизнь наладилась! Муж перестал ныть, ребёнок спит, я похудела на 12 кг. Совпадение? Не думаю!»</p>
+          <div class="review-author">— Мариванна К., г. Воркута</div>
+        </article>
+        <article class="review-card">
+          <span class="verified">✅ ПРОВЕРЕНО</span>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Теперь выкатываю коляску в -35°С и ни разу не упал. А раньше падал постоянно, но это не из-за резины, просто я алкаш.»</p>
+          <div class="review-author">— Борис Д., 43 года, папа троих детей</div>
+        </article>
+        <article class="review-card">
+          <span class="verified">✅ ПРОВЕРЕНО</span>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Попросила мужа поставить — он поставил, и потом два часа рассказывал об этом всем. Теперь он блогер про коляски. Спасибо вам!!!»</p>
+          <div class="review-author">— Людмила, Иваново</div>
+        </article>
+        <article class="review-card">
+          <span class="verified">✅ ПРОВЕРЕНО</span>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Я думал — резина и резина. Но нет! Коляска теперь едет ровно, а мой сын улыбается при каждом выезде. Или просто зубы режутся.»</p>
+          <div class="review-author">— Алексей П., Новосибирск</div>
+        </article>
+        <article class="review-card">
+          <span class="verified">✅ ПРОВЕРЕНО</span>
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">«Дала один балл, а потом мне позвонил менеджер Геннадий и мы поговорили 4 часа. Теперь ставлю 5 звёзд. Геннадий, привет!»</p>
+          <div class="review-author">— Анонимный покупатель</div>
+        </article>
+        <article class="review-card" style="background:#ffe600; border-color:#e8000d;">
+          <div class="review-stars" style="color:#e8000d;">★★★★★</div>
+          <p class="review-text" style="color:#111;">«Наш кот запрыгнул на коляску, покатился с горки и приземлился в сугроб. Жив, доволен.»</p>
+          <div class="review-author">— Семья Котовых, Омск 🐱</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <h2>КУПИ ПРЯМО СЕЙЧАС<br>ПОКА НЕ ЗАКОНЧИЛИСЬ!!!</h2>
+      <div class="old-price">Старая цена: 999 999 руб.</div>
+      <div class="price-badge">СЕЙЧАС ВСЕГО: 2 490 ₽ 🤯</div>
+      <br><br>
+      <a href="#" class="cta-btn" onclick="alert('ПОЗДРАВЛЯЕМ! Вы нажали кнопку!\nК сожалению, магазин закрылся на обед.\nЗвоните после снегопада!'); return false;">
+        🛒 ХОЧУ! БЕРУ! ДАЙ!
+      </a>
+      <br><br>
+      <small style="color:rgba(255,255,255,0.7);font-family:Arial;font-size:clamp(8px,1.5vw,10px);">
+        *Гарантия 3 минуты с момента покупки. Доставка — сами приедете. Возврат невозможен, но вы же не вернёте?
+      </small>
+    </section>
+
+  </main>
+
+  <!-- ПРАВЫЙ БАННЕР -->
+  <aside class="side-ad right">
+    <div class="ad-banner">
+      <div class="ad-title">🔮 ГАДАЛКА</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#8b00ff"/>
+        <circle cx="50" cy="36" r="24" fill="#ddd" stroke="#ffe600" stroke-width="3"/>
+        <circle cx="50" cy="36" r="18" fill="#c8e6ff"/>
+        <text x="50" y="40" text-anchor="middle" font-size="20">🔮</text>
+        <text x="50" y="70" text-anchor="middle" font-size="8" fill="#ffe600" font-family="Arial">ПРЕДСКАЖУ ЗИМУ</text>
+      </svg>
+      Гадалка Зинаида: «Я вижу снег в ваших колёсах!»
+    </div>
+    <div class="ad-banner">
+      <div class="ad-title">🧴 КРЕМ</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#ff69b4"/>
+        <rect x="35" y="15" width="30" height="50" rx="10" fill="white" stroke="#ff1493" stroke-width="3"/>
+        <text x="50" y="44" text-anchor="middle" font-size="8" fill="#ff1493" font-family="Impact">КРЕМ</text>
+        <text x="50" y="54" text-anchor="middle" font-size="6" fill="#ff1493" font-family="Arial">от мороза</text>
+        <text x="50" y="72" text-anchor="middle" font-size="7" fill="white" font-family="Arial">ДЛЯ РЕЗИНЫ!</text>
+      </svg>
+      Крем «Тёплые Колёса» — увлажнение для шин!
+    </div>
+    <div class="ad-banner">
+      <div class="ad-title">📱 ПРИЛОЖЕНИЕ</div>
+      <svg class="ad-svg" viewBox="0 0 100 80">
+        <rect width="100" height="80" fill="#111"/>
+        <rect x="28" y="8" width="44" height="64" rx="6" fill="#222" stroke="#ffe600" stroke-width="2"/>
+        <rect x="32" y="16" width="36" height="44" fill="#0057b8"/>
+        <text x="50" y="43" text-anchor="middle" font-size="8" fill="#ffe600" font-family="Impact">КОЛЕСО</text>
+        <text x="50" y="53" text-anchor="middle" font-size="6" fill="white" font-family="Arial">монитор</text>
+        <text x="50" y="74" text-anchor="middle" font-size="7" fill="white" font-family="Arial">v 0.0.1 BETA</text>
+      </svg>
+      Следите за давлением в колёсах из приложения!
+    </div>
+  </aside>
+
+</div><!-- /page-grid -->
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 ООО «WINTER PRO» — Все права защищены</p>
+  <p>ИНН: 0000000000 | ОГРН: 1234567890 | Юр. адрес: ул. Снежная, д.1, кв.0, сугроб №3</p>
+  <p style="opacity:0.5;font-size:0.85em;">* Компания не несёт ответственности за: неожиданный снегопад, плач ребёнка, злую свекровь.</p>
+  <p style="margin-top:8px;color:#ffe600;">Горячая линия: 8-800-555-3535 (звонок бесплатный, ответ платный)</p>
+</footer>
+
+<!-- POPUP -->
+<div class="popup-ad" id="popup">
+  <span class="popup-close" onclick="document.getElementById('popup').style.display='none'">✕</span>
+  <div class="popup-title">🚨 СТОП! НЕ УХОДИ!</div>
+  <svg width="80" height="60" viewBox="0 0 80 60">
+    <rect width="80" height="60" fill="#ffe600"/>
+    <text x="40" y="40" text-anchor="middle" font-size="36">😱</text>
+  </svg>
+  <div>Ты уходишь без резины?!<br><strong>СКИДКА 5% прямо сейчас!</strong></div>
+  <br>
+  <button onclick="alert('Промокод: МНЕОЧЕНЬНУЖНАРЕЗИНА')" style="background:var(--red);color:var(--white);border:2px solid #111;padding:4px 10px;cursor:pointer;font-family:Impact;font-size:13px;width:100%;">ВЗЯТЬ СКИДКУ!</button>
+</div>
+</body>
+</html>
