@@ -1,18 +1,13 @@
-// ==================== API ENDPOINTS ====================
+
 const POSTS_API = 'https://jsonplaceholder.typicode.com/posts';
 const COUNTRIES_API = 'https://restcountries.com/v3.1';
-// Используем более надежный API для пользователей
 const USERS_API = 'https://jsonplaceholder.typicode.com/users';
-// Дополнительный API для создания/обновления (имитация)
 const FAKE_API = 'https://jsonplaceholder.typicode.com';
-
-// ==================== STATE ====================
 let currentPostsPage = 1;
 let currentUsersPage = 1;
-let allUsers = []; // Store all users for client-side pagination
+let allUsers = []; 
 const itemsPerPage = 6;
 
-// ==================== UTILITIES ====================
 function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     toast.textContent = message;
@@ -37,20 +32,16 @@ function openModal(modalId) {
     document.getElementById(modalId).classList.add('active');
 }
 
-// ==================== NAVIGATION ====================
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const pageId = btn.dataset.page;
-
-        // Update active button
+        
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Update active page
         document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
         document.getElementById(`page-${pageId}`).classList.add('active');
 
-        // Load data for the page if needed
         if (pageId === 'posts') {
             loadPosts(currentPostsPage);
         } else if (pageId === 'countries') {
@@ -61,7 +52,6 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
     });
 });
 
-// ==================== POSTS (JSONPlaceholder) ====================
 async function loadPosts(page = 1) {
     const container = document.getElementById('posts-list');
     showLoading('posts-list');
@@ -143,7 +133,6 @@ async function createPost() {
         document.getElementById('post-title').value = '';
         document.getElementById('post-body').value = '';
 
-        // Reload posts
         loadPosts(1);
     } catch (error) {
         console.error('Error creating post:', error);
@@ -208,7 +197,6 @@ async function deletePost(id) {
     }
 }
 
-// ==================== COUNTRIES (REST Countries) ====================
 async function loadCountries() {
     const container = document.getElementById('countries-grid');
     showLoading('countries-grid');
@@ -318,13 +306,11 @@ function renderCountries(countries) {
     `).join('');
 }
 
-// ==================== USERS (JSONPlaceholder Users - более стабильный) ====================
 async function loadUsers(page = 1) {
     const container = document.getElementById('users-list');
     showLoading('users-list');
     
     try {
-        // Используем JSONPlaceholder Users API - он более стабильный
         const response = await fetch(`${USERS_API}`);
         
         if (!response.ok) {
@@ -334,7 +320,6 @@ async function loadUsers(page = 1) {
         const users = await response.json();
         allUsers = users;
         
-        // Client-side pagination
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedUsers = users.slice(startIndex, endIndex);
@@ -400,7 +385,6 @@ async function createUser() {
     createBtn.disabled = true;
     
     try {
-        // Используем JSONPlaceholder posts endpoint для имитации создания пользователя
         const response = await fetch(`${FAKE_API}/posts`, {
             method: 'POST',
             headers: { 
@@ -420,7 +404,6 @@ async function createUser() {
         
         const newItem = await response.json();
         
-        // Создаем локального пользователя для отображения
         const newUser = {
             id: newItem.id,
             name: name,
@@ -430,16 +413,13 @@ async function createUser() {
             company: { name: job }
         };
         
-        // Добавляем в начало списка локально
         allUsers.unshift(newUser);
         
         showToast(`✅ Пользователь "${name}" успешно создан! (ID: ${newUser.id})`, 'success');
         
-        // Clear form
         document.getElementById('user-name').value = '';
         document.getElementById('user-job').value = '';
         
-        // Reload current page
         loadUsers(currentUsersPage);
         
     } catch (error) {
@@ -474,7 +454,6 @@ async function patchUser() {
     updateBtn.disabled = true;
     
     try {
-        // Имитация обновления через API
         const response = await fetch(`${FAKE_API}/posts/${id}`, {
             method: 'PATCH',
             headers: { 
@@ -488,7 +467,6 @@ async function patchUser() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        // Обновляем локальные данные
         const userIndex = allUsers.findIndex(u => u.id === id);
         if (userIndex !== -1) {
             allUsers[userIndex].name = name;
@@ -498,7 +476,6 @@ async function patchUser() {
         showToast(`✅ Пользователь обновлен! Имя: ${name}, Должность: ${job}`, 'success');
         closeModal('user-modal');
         
-        // Reload users
         loadUsers(currentUsersPage);
         
     } catch (error) {
@@ -514,17 +491,14 @@ async function deleteUser(id) {
     if (!confirm('Вы уверены, что хотите удалить этого пользователя?')) return;
     
     try {
-        // Имитация удаления через API
         const response = await fetch(`${FAKE_API}/posts/${id}`, {
             method: 'DELETE'
         });
         
-        // Удаляем локально
         allUsers = allUsers.filter(user => user.id !== id);
         
         showToast('✅ Пользователь успешно удален!', 'success');
         
-        // Reload current page
         loadUsers(currentUsersPage);
         
     } catch (error) {
@@ -533,7 +507,6 @@ async function deleteUser(id) {
     }
 }
 
-// ==================== PAGINATION ====================
 function renderPagination(containerId, currentPage, totalPages, onPageChange) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -544,11 +517,9 @@ function renderPagination(containerId, currentPage, totalPages, onPageChange) {
     }
     
     let html = '';
-    
-    // Previous button
+
     html += `<button class="page-btn" onclick="if(${currentPage} > 1) ${onPageChange.name}(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>←</button>`;
     
-    // Page numbers
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
     
@@ -566,13 +537,11 @@ function renderPagination(containerId, currentPage, totalPages, onPageChange) {
         html += `<button class="page-btn" onclick="${onPageChange.name}(${totalPages})">${totalPages}</button>`;
     }
     
-    // Next button
     html += `<button class="page-btn" onclick="if(${currentPage} < ${totalPages}) ${onPageChange.name}(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>→</button>`;
     
     container.innerHTML = html;
 }
 
-// ==================== HELPER FUNCTIONS ====================
 function escapeHtml(str) {
     if (!str) return '';
     return String(str)
@@ -583,7 +552,6 @@ function escapeHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
-// ==================== INITIAL LOAD ====================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('API Explorer initialized');
     loadPosts(1);
@@ -591,7 +559,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUsers(1);
 });
 
-// Close modal on overlay click
 document.querySelectorAll('.modal-overlay').forEach(modal => {
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -600,7 +567,6 @@ document.querySelectorAll('.modal-overlay').forEach(modal => {
     });
 });
 
-// Escape key to close modals
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         document.querySelectorAll('.modal-overlay.active').forEach(modal => {
@@ -609,7 +575,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Add additional styles for user cards
 const additionalStyles = document.createElement('style');
 additionalStyles.textContent = `
     .user-phone, .user-website {
