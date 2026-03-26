@@ -31,8 +31,6 @@ body {
 }
 
 
-/* Header */
-
 header {
     background: rgba(10, 10, 42, 0.95);
     backdrop-filter: blur(10px);
@@ -96,7 +94,6 @@ nav {
 }
 
 
-/* Main */
 
 main {
     max-width: 1400px;
@@ -125,7 +122,6 @@ main {
 }
 
 
-/* Page Header */
 
 .page-header {
     margin-bottom: 2rem;
@@ -146,7 +142,6 @@ main {
 }
 
 
-/* Badges */
 
 .badge-group {
     display: inline-flex;
@@ -190,7 +185,6 @@ main {
 }
 
 
-/* Cards */
 
 .card {
     background: var(--bg-card);
@@ -217,8 +211,6 @@ main {
     color: var(--text-primary);
 }
 
-
-/* Forms */
 
 .form-group {
     margin-bottom: 1rem;
@@ -257,8 +249,6 @@ main {
     gap: 1rem;
 }
 
-
-/* Buttons */
 
 .btn {
     padding: 0.7rem 1.5rem;
@@ -329,8 +319,6 @@ main {
 }
 
 
-/* Section Label */
-
 .section-label {
     display: flex;
     justify-content: space-between;
@@ -341,8 +329,6 @@ main {
     font-weight: 600;
 }
 
-
-/* Posts List */
 
 .posts-list {
     display: flex;
@@ -415,7 +401,6 @@ main {
 }
 
 
-/* Card Grid (Countries & Users) */
 
 .card-grid {
     display: grid;
@@ -512,8 +497,6 @@ main {
 }
 
 
-/* Search Bar */
-
 .search-bar {
     display: flex;
     gap: 1rem;
@@ -546,8 +529,6 @@ main {
 }
 
 
-/* Pagination */
-
 .pagination {
     display: flex;
     justify-content: center;
@@ -575,8 +556,6 @@ main {
     background: rgba(108, 92, 231, 0.2);
 }
 
-
-/* Modal */
 
 .modal-overlay {
     position: fixed;
@@ -650,8 +629,6 @@ main {
 }
 
 
-/* Loading & Toast */
-
 .loading-spinner {
     width: 40px;
     height: 40px;
@@ -696,9 +673,6 @@ main {
     border-left-color: var(--danger);
 }
 
-
-/* Empty State */
-
 .empty-state {
     text-align: center;
     padding: 3rem;
@@ -710,8 +684,6 @@ main {
     margin-bottom: 1rem;
 }
 
-
-/* Responsive */
 
 @media (max-width: 768px) {
     header {
@@ -741,8 +713,6 @@ main {
     }
 }
 
-
-/* Additional styles for better UX */
 
 .page-dots {
     display: inline-block;
@@ -828,8 +798,6 @@ button:disabled {
 }
 
 
-/* Toast improvements */
-
 #toast {
     position: fixed;
     bottom: 2rem;
@@ -863,7 +831,6 @@ button:disabled {
 }
 
 
-/* Loading spinner improvement */
 
 .loading-spinner {
     width: 50px;
@@ -882,7 +849,6 @@ button:disabled {
 }
 
 
-/* Responsive improvements */
 
 @media (max-width: 768px) {
     #toast {
