@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Explorer | Работа с открытыми API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="logo-icon">🚀</span>
+            <span class="logo-text">API Explorer</span>
+        </div>
+        <nav>
+            <button class="nav-btn active" data-page="posts">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">Посты</span>
+        </button>
+            <button class="nav-btn" data-page="countries">
+            <span class="nav-icon">🌍</span>
+            <span class="nav-text">Страны</span>
+        </button>
+            <button class="nav-btn" data-page="users">
+            <span class="nav-icon">👥</span>
+            <span class="nav-text">Пользователи</span>
+        </button>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- PAGE 1: POSTS — JSONPlaceholder -->
+        <div class="page active" id="page-posts">
+            <div class="page-header">
+                <h1>
+                    📝 Посты
+                    <div class="badge-group">
+                        <span class="badge badge-get">GET</span>
+                        <span class="badge badge-post">POST</span>
+                        <span class="badge badge-put">PUT</span>
+                        <span class="badge badge-delete">DELETE</span>
+                    </div>
+                </h1>
+                <p class="api-info">
+                    <strong>JSONPlaceholder</strong> · jsonplaceholder.typicode.com · Полный CRUD для постов
+                </p>
+            </div>
+
+            <div class="card create-card">
+                <h2>✨ Создать новый пост</h2>
+                <div class="form-group">
+                    <label>📌 Заголовок</label>
+                    <input id="post-title" type="text" placeholder="Введите заголовок поста..." autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label>📄 Содержание</label>
+                    <textarea id="post-body" rows="3" placeholder="Введите текст поста..."></textarea>
+                </div>
+                <div class="btn-toolbar">
+                    <button class="btn btn-primary" onclick="createPost()">
+                    <span>➕</span> Создать пост
+                </button>
+                    <button class="btn btn-secondary" onclick="loadPosts(1)">
+                    <span>🔄</span> Обновить
+                </button>
+                </div>
+            </div>
+
+            <div class="section-label">
+                <span>📋 Список постов</span>
+                <span class="badge badge-get">GET</span>
+            </div>
+            <div id="posts-list" class="posts-list">
+                <div class="loading-spinner"></div>
+            </div>
+            <div id="posts-pagination" class="pagination"></div>
+        </div>
+
+        <!-- PAGE 2: COUNTRIES — REST Countries -->
+        <div class="page" id="page-countries">
+            <div class="page-header">
+                <h1>
+                    🌍 Страны мира
+                    <span class="badge badge-get">GET</span>
+                </h1>
+                <p class="api-info">
+                    <strong>REST Countries</strong> · restcountries.com · Справочник стран мира
+                </p>
+            </div>
+
+            <div class="search-bar">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input id="country-search" type="text" placeholder="Поиск страны (например: Germany, France, Japan)..." onkeydown="if(event.key==='Enter')searchCountries()">
+                </div>
+                <button class="btn btn-primary" onclick="searchCountries()">Найти</button>
+                <button class="btn btn-outline" onclick="loadRegion('europe')">🇪🇺 Европа</button>
+                <button class="btn btn-outline" onclick="loadRegion('asia')">🌏 Азия</button>
+                <button class="btn btn-outline" onclick="loadRegion('africa')">🌍 Африка</button>
+            </div>
+
+            <div id="countries-grid" class="card-grid">
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: USERS — ReqRes -->
+        <div class="page" id="page-users">
+            <div class="page-header">
+                <h1>
+                    👥 Пользователи
+                    <div class="badge-group">
+                        <span class="badge badge-get">GET</span>
+                        <span class="badge badge-post">POST</span>
+                        <span class="badge badge-patch">PATCH</span>
+                        <span class="badge badge-delete">DELETE</span>
+                    </div>
+                </h1>
+                <p class="api-info">
+                    <strong>ReqRes</strong> · reqres.in · Тестовое управление пользователями
+                </p>
+            </div>
+
+            <div class="card create-card">
+                <h2>✨ Создать пользователя</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>👤 Имя</label>
+                        <input id="user-name" type="text" placeholder="John Doe" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label>💼 Должность</label>
+                        <input id="user-job" type="text" placeholder="Developer" autocomplete="off">
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="createUser()">
+                <span>➕</span> Создать пользователя
+            </button>
+            </div>
+
+            <div class="section-label">
+                <span>📋 Список пользователей</span>
+                <span class="badge badge-get">GET</span>
+            </div>
+            <div id="users-list" class="card-grid users-grid">
+                <div class="loading-spinner"></div>
+            </div>
+            <div id="users-pagination" class="pagination"></div>
+        </div>
+
+    </main>
+
+    <!-- MODAL: EDIT POST -->
+    <div class="modal-overlay" id="edit-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>✏️ Редактировать пост</h2>
+                <button class="modal-close" onclick="closeModal('edit-modal')">&times;</button>
+            </div>
+            <input type="hidden" id="edit-id">
+            <div class="form-group">
+                <label>📌 Заголовок</label>
+                <input id="edit-title" type="text">
+            </div>
+            <div class="form-group">
+                <label>📄 Содержание</label>
+                <textarea id="edit-body" rows="4"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('edit-modal')">Отмена</button>
+                <button class="btn btn-warning" onclick="updatePost()">💾 Сохранить (PUT)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: EDIT USER -->
+    <div class="modal-overlay" id="user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>✏️ Редактировать пользователя</h2>
+                <button class="modal-close" onclick="closeModal('user-modal')">&times;</button>
+            </div>
+            <input type="hidden" id="umod-id">
+            <div class="form-group">
+                <label>👤 Имя</label>
+                <input id="umod-name" type="text">
+            </div>
+            <div class="form-group">
+                <label>💼 Должность</label>
+                <input id="umod-job" type="text">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('user-modal')">Отмена</button>
+                <button class="btn btn-warning" onclick="patchUser()">💾 Сохранить (PATCH)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
